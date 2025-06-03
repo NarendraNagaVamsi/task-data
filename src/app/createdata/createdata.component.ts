@@ -19,6 +19,7 @@ export class CreatedataComponent {
     private route: ActivatedRoute
   ) {}
 
+
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
@@ -30,6 +31,7 @@ export class CreatedataComponent {
         this.status = task.status;
         this.editIndex = index;
       }
+      
     }
   }
 
@@ -47,5 +49,18 @@ export class CreatedataComponent {
     }
 
     this.router.navigate(['/todo-list']);
+  }
+
+  removedata() {
+    const task: Task = {
+      taskid: this.taskid,
+      description: this.description,
+      status: this.status,
+    };    
+    if (this.editIndex !== null) {
+      this.taskService.updateTask(this.editIndex, task);
+    } else {
+      this.taskService.addTask(task);
+    }
   }
 }
