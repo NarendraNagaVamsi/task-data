@@ -14,9 +14,7 @@ TaskTableModule
 @NgModule({
   declarations: [
     AppComponent,
-    
- 
-  ],
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
