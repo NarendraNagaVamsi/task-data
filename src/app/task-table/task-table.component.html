@@ -1,118 +1,109 @@
-<h2>Task List</h2>
-
-<table *ngIf="tasks.length > 0" class="table table-bordered table-striped w-75">
-  <thead class="table-light text-center align-middle">
-    <tr>
-      <th style="width: 5%;">S.No</th>
-      <th style="width: 15%;">Task ID</th>
-      <th style="width: 20%;">Description</th>
-      <th style="width: 15%;">Status</th>
-      <th style="width: 20%;">Actions</th>
-    </tr>
-
-    <tr>
-      <th></th>
+<div class="container-fluid mt-3">
 
 
-      <th class="position-relative">
-        <input type="text" class="form-control form-control-sm pe-4" placeholder="Search Task ID"
-          [(ngModel)]="searchTaskId" />
-        <button *ngIf="searchTaskId" class="btn btn-sm position-absolute top-50  translate-middle-y me-1 p-0"
+  <table *ngIf="tasks.length > 0" class="table table-bordered table-striped w-75 ">
+    <thead class="table-light text-center align-middle">
+      <tr>
+        <th style="width: 5%;">S.No</th>
+        <th style="width: 15%;">Task ID</th>
+        <th style="width: 20%;">Description</th>
+        <th style="width: 15%;">Status</th>
+        <th style="width: 20%;">Actions</th>
+      </tr>
+
+      <tr>
+        <th></th>
+
+
+        <th class="position-relative">
+          <input type="search" class="form-control form-control-sm pe-4" placeholder="Search Task ID"
+            [(ngModel)]="searchTaskId" />
+          <!-- <button *ngIf="searchTaskId" class="btn btn-sm position-absolute top-50  translate-middle-y me-1 p-0"
           style="z-index: 2;" (click)="searchTaskId = ''" title="Clear Task ID">
           <i class="bi bi-x-circle-fill" style="padding-left:60px;"></i>
-        </button>
-      </th>
+        </button> -->
+        </th>
 
 
-      <th class="position-relative">
-        <input type="text" class="form-control form-control-sm pe-4" placeholder="Search Description"
-          [(ngModel)]="searchDescription" />
-        <button *ngIf="searchDescription" class="btn btn-sm position-absolute top-50 translate-middle-y me-1 p-0"
+        <th class="position-relative">
+          <input type="search" class="form-control form-control-sm pe-4" placeholder="Search Description"
+            [(ngModel)]="searchDescription" />
+          <!-- <button *ngIf="searchDescription" class="btn btn-sm position-absolute top-50 translate-middle-y me-1 p-0"
           style="z-index: 2;" (click)="searchDescription = ''" title="Clear Description">
           <i class="bi bi-x-circle-fill" style="padding-left:60px;"></i>
-        </button>
-      </th>
+        </button> -->
+        </th>
 
 
-      <th class="position-relative">
-        <input type="text" class="form-control form-control-sm pe-4" placeholder="Search Status"
-          [(ngModel)]="searchStatus" />
-        <button *ngIf="searchStatus" class="btn btn-sm position-absolute top-50 translate-middle-y me-1 p-0"
+        <th class="position-relative">
+          <input type="search" class="form-control form-control-sm pe-4" placeholder="Search Status"
+            [(ngModel)]="searchStatus" />
+          <!-- <button *ngIf="searchStatus" class="btn btn-sm position-absolute top-50 translate-middle-y me-1 p-0"
           style="z-index: 2;" (click)="searchStatus = ''" title="Clear Status">
           <i class="bi bi-x-circle-fill" style="padding-left:60px;"></i>
-        </button>
-      </th>
+        </button> -->
+        </th>
 
-      <th></th>
-    </tr>
+        <th></th>
+      </tr>
 
-  </thead>
+    </thead>
 
-  <tbody>
-    <ng-container *ngFor="let task of tasks | taskFilter:searchTaskId:searchDescription:searchStatus; let i = index">
-      <tr>
-        <td class="text-center align-middle">
-          {{ i + 1 }}
-          <button class="btn btn-sm btn-outline-info ms-2" (click)="toggleStatusSection(i)" title="Toggle Status">
-            <i class="bi" [ngClass]="statusToggle === i ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-          </button>
-        </td>
+    <tbody>
+      <ng-container *ngFor="let task of tasks | taskFilter:searchTaskId:searchDescription:searchStatus; let i = index">
+        <tr>
+          <td> {{ i + 1 }}</td>
+          <td class="text-center align-middle">
 
-        <td class="text-center align-middle">{{ task.taskid }}</td>
+            <button class="btn btn-sm  ms-2" (click)="toggleStatusSection(i)" title="Toggle Status">
+              <i [ngClass]="statusToggle === i ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+            </button>
+          </td>
 
-        <td class="align-middle">{{ task.description }}</td>
+          <td class="text-center align-middle">{{ task.taskid }}</td>
 
-        <td class="text-center align-middle">
-          <span [ngClass]="{
-              'text-warning': task.status === 'Pending',
-              'text-success': task.status === 'Success'
-            }">
-            {{ task.status }}
-          </span>
-        </td>
+          <td class="align-middle">{{ task.description }}</td>
 
-        <td class="text-center align-middle">
+          <td class="text-center align-middle">
+
+            <span [ngClass]="{
+            'text-warning': task.status === 'Pending',
+            'text-success':task.status=='Success'
+          }">
+              {{task.status}}
+            </span>
+          </td>
+
+          <!-- <td class="text-center align-middle">
           <button (click)="editTask(i)" class="btn btn-warning btn-sm">Edit</button>
           <button (click)="deleteTask(i)" class="btn btn-danger btn-sm mx-2">Delete</button>
-        </td>
-      </tr>
-
-      
-      <tr *ngIf="statusToggle === i">
-        <td colspan="6" class="p-3 bg-light">
-          <div class="d-flex align-items-center gap-4">
-            <label class="form-check-label">
-              <input type="radio" class="form-check-input me-1" [name]="'status' + i" value="Pending"
-                [(ngModel)]="task.tempStatus" />
-              Pending
-            </label>
-            <label class="form-check-label">
-              <input type="radio" class="form-check-input me-1" [name]="'status' + i" value="Success"
-                [(ngModel)]="task.tempStatus" />
-
-              Success
-            </label>
-            <button (click)="updateTaskStatus(i)" class="btn btn-primary btn-sm">Save</button>
-          </div>
-
-        </td>
-      </tr>
+        </td> -->
+        </tr>
 
 
-      <!--   <tr *ngIf="statusToggle===i">
-        <td colspan="6" class="p-3 bg-light">
-          <div class="d-flex align-items-center gap-4">
-            <label class="form-check-label">
-              <input type="radio" class="form-check-input me-1" [name]="'status'+i" value="pending"
-                [(ngModel)]="task.tempStatus"/>
-                failed
-            </label>
-          </div>
-        </td>
-      </tr> -->
-    </ng-container>
+        <tr *ngIf="statusToggle === i">
+          <td colspan="6" class="p-3 bg-light">
+            <div class="d-flex align-items-center gap-4">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input me-1" [name]="'status' + i" value="Pending"
+                  [(ngModel)]="task.tempStatus" />
+                Pending
+              </label>
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input me-1" [name]="'status' + i" value="Success"
+                  [(ngModel)]="task.tempStatus" />
 
-  </tbody>
-</table>
+                Success
+              </label>
+              <button (click)="updateTaskStatus(i)" class="btn btn-primary btn-sm">Save</button>
+            </div>
 
-<p *ngIf="tasks.length === 0">No tasks available.</p>
+          </td>
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
+
+  <p *ngIf="tasks.length === 0">No tasks available.</p>
+</div>

@@ -5,12 +5,7 @@ import { Task } from './task.service';
   name: 'taskFilter',
 })
 export class TaskFilterPipe implements PipeTransform {
-  transform(
-    tasks: Task[],
-    taskId: string,
-    description: string,
-    status: string
-  ): Task[] {
+  transform(tasks: Task[],taskId: string,description: string,status: string): Task[] {
     return tasks.filter(
       (task) =>
         (!taskId || task.taskid.toLowerCase().includes(taskId.toLowerCase())) &&
